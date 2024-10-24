@@ -25,20 +25,22 @@ class Seat:
         self.free = free
         self.occupant = occupant
 
-    def set_occupant(self, name):
+    def set_occupant(self):
         "function which allows the program to assign someone a seat"
         seats = []
         if self.free == True:
-            seats.append(name)
+            seats.append(self.occupant)
         else:
             seats.append(None)
 
-    def remove_occupant(self, seats):
+    def remove_occupant(self):
         "function which removes someone from a seat and return the name of the person occupying the seat before"
         index_occupant = seats.index(self.occupant)
         seats.remove(self.occupant)
         seat_before = seats[index_occupant-1]
         return seat_before
+        
+    
 
 
 
@@ -66,17 +68,18 @@ class Table(Seat):
 
     def has_free_spot(self):
         "function that returns a boolean (True if a spot is available)"
-        result = 0
+        capacity = 0
         for seat in self.seats:
-            result += seat.free
-            if result < self.capacity:
+            capacity += seat.free
+            if capacity < self.capacity:
                 return True
             else:
                 return False
     
     def left_capacity(self):
         "function that returns capacity"
-
-        capacity = len(self.seats)
+        capacity = 0
+        for seat in self.seats:
+            capacity += seat.free
         return capacity
 
