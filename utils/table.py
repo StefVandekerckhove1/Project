@@ -31,8 +31,8 @@ class Seat:
         if self.free == True:
             seats.append(name)
         else:
-            return "Sorry, this seat is occupied."
-    
+            seats.append(None)
+
     def remove_occupant(self, seats):
         "function which removes someone from a seat and return the name of the person occupying the seat before"
         index_occupant = seats.index(self.occupant)
@@ -54,22 +54,25 @@ class Seat:
 # - `assign_seat(name)` that places someone at the table
 # - `left_capacity()` that returns an integer
 
-class Table:
+class Table(Seat):
     
     """Class representing a Table with attributes 'capacity' and 'seats'"""
 
-    def __init__(self, capacity, seats):
+    def __init__(self, free, occupant, capacity = 4):
         """Constructor"""
+        super().__init__(free, occupant)
         self.capacity = capacity
-        self.seats = seats
+        self.seats = [Seat for i in range(self.capacity)]
 
-    def has_free_spot(self,spot):
+    def has_free_spot(self):
         "function that returns a boolean (True if a spot is available)"
-        
-        if self.seats[spot] == str:
-            return True
-        else:
-            return False
+        result = 0
+        for seat in self.seats:
+            result += seat.free
+            if result < self.capacity:
+                return True
+            else:
+                return False
     
     def left_capacity(self):
         "function that returns capacity"
